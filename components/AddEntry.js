@@ -1,0 +1,82 @@
+import React, { Component } from 'react';
+import { View } from 'react-native';
+import { getMetricMetaInfo } from '../utils/helpers';
+import Slider from './Slider';
+import Steppers from './Steppers';
+import DateHeader from './DateHeader';
+
+export default class AddEntry extends Component {
+  state = {
+    run: 0,
+    bike: 0,
+    swim: 0,
+    sleep: 0,
+    eat: 0,
+  }
+  increment = (metric) => {
+    const { max, step } = getMetricMetaInfo(metric);
+
+    this.setState((state) => {
+      // adding the object step (got by getMetricMetaInfo) to the current value
+      const count = state[metric] + step;
+      // adding the step to the current state metric
+      return {
+        ...state,
+        [metric]: count > max ? max : count,
+      }
+    })
+  }
+  decrement = (metric) => {
+
+    this.setState((state) => {
+      // adding the object step (got by getMetricMetaInfo) to the current value
+      const count = state[metric] - getMetricMetaInfo(metric).step;
+      // adding the step to the current state metric
+      return {
+        ...state,
+        [metric]: count < 0 ? 0 : count,
+      }
+    })
+  }
+  slide = (metric, value) => {
+    this.setState(() => ({
+      [metric]: value,
+    }));
+  }
+  render() {
+    const metaInfo = getMetricMetaInfo();
+
+    return (
+      <View>
+        {
+          // creating a new date and using toLocaleDateString to make it more readable, while passing
+          // it to the DateHeader component
+        }
+        <DateHeader date={(new Date()).toLocaleDateString()} />
+        {Object.keys(metaInfo).map((key) => {
+          const { getIcon, type, ...rest } = metaInfo[key];
+          const value = this.state[key];
+
+          return (
+            <View key={key}>
+              {getIcon()}
+              {type === 'slider'
+                ? <Slider
+                    value={value}
+                    onChange={(value) => this.slide(key, value)}
+                    {...rest}
+                  />
+                : <Steppers
+                    value={value}
+                    onIncrement={() => this.increment(key)}
+                    onDecrement={() => this.decrement(key)}
+                    {...rest}
+                  />
+              }
+            </View>
+          )
+        })}
+      </View>
+    );
+  }
+}
