@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import AddEntry from './components/AddEntry';
+import ComponentExamples from './components/ComponentExamples';
 
 /**
  *  Expo is a set of tools and services that allow us to build native (iOS and Android) applications with JavaScript
@@ -10,6 +11,10 @@ export default class App extends React.Component {
   render() {
     return (
       <View>
+        {
+          // Uncomment the following component to see switch, flatList and input components
+        }
+        {/* <ComponentExamples /> */}
         <AddEntry />
       </View>
     );

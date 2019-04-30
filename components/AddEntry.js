@@ -6,6 +6,7 @@ import FitnessSlider from './FitnessSlider';
 import FitnessSteppers from './FitnessSteppers';
 import DateHeader from './DateHeader';
 import TextButton from './TextButton';
+import { submitEntry, removeEntry } from '../utils/api';
 
 const SubmitBtn = ({ onPress }) => {
   return (
@@ -71,10 +72,14 @@ export default class AddEntry extends Component {
       sleep: 0,
       eat: 0,
     }));
+
+    // adding entry into AsyncStorage
+    submitEntry({ key, entry });
   }
   reset = () => {
     const key = timeToString();
-
+    // removing entry from AsyncStorage
+    removeEntry(key);
   }
   render() {
     const metaInfo = getMetricMetaInfo();
