@@ -2,7 +2,6 @@ import React from 'react';
 import { View } from 'react-native';
 // this library is added by default to create-react-native-app
 import { FontAwesome, MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { white } from './colors';
 
 export function isBetween (num, x, y) {
   if (num >= x && num <= y) {
@@ -127,3 +126,7 @@ export function getMetricMetaInfo(metric) {
   };
   return typeof metric === 'undefined' ? info : info[metric];
 }
+
+export const getDailyReminderValue = () => ({
+  today: "👋 Don't forget to log your data today!",
+});

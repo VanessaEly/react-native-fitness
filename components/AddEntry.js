@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
+import { connect } from 'react-redux';
 import { Entypo } from '@expo/vector-icons';
-import { getMetricMetaInfo, timeToString } from '../utils/helpers';
+import { getDailyReminderValue, getMetricMetaInfo, timeToString } from '../utils/helpers';
 import FitnessSlider from './FitnessSlider';
 import FitnessSteppers from './FitnessSteppers';
 import DateHeader from './DateHeader';
 import TextButton from './TextButton';
 import { submitEntry, removeEntry } from '../utils/api';
+import { addEntry } from '../actions';
 
 const SubmitBtn = ({ onPress }) => {
   return (
@@ -24,7 +26,7 @@ const SubmitBtn = ({ onPress }) => {
   );
 }
 
-export default class AddEntry extends Component {
+class AddEntry extends Component {
   state = {
     run: 0,
     bike: 0,
@@ -64,6 +66,12 @@ export default class AddEntry extends Component {
   submit = () => {
     const key = timeToString();
     const entry = this.state;
+    
+    // adding the new entry to the store by dispatching its add action, which will fire the reducer
+    // that updates the state
+    this.props.dispatch(addEntry({
+      [key]: entry
+    }));
 
     this.setState(() => ({
       run: 0,
@@ -78,6 +86,11 @@ export default class AddEntry extends Component {
   }
   reset = () => {
     const key = timeToString();
+
+    this.props.dispatch(addEntry({
+      [key]: getDailyReminderValue(),
+    }));
+
     // removing entry from AsyncStorage
     removeEntry(key);
   }
@@ -114,7 +127,7 @@ export default class AddEntry extends Component {
 
           return (
             <View key={key}>
-              {getIcon()}
+              {/* {getIcon()} */}
               {type === 'slider'
                 ? <FitnessSlider
                     value={value}
@@ -136,3 +149,15 @@ export default class AddEntry extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  const key = timeToString();
+
+  return {
+    // today will only be available if the object is resetted (see getDailyReminderValue at helpers.js)
+    alreadyLogged: state[key] && typeof state[key].today === 'undefined'
+  }
+}
+
+// connecting the component to the store provided by App.js provider
+export default connect(mapStateToProps)(AddEntry);

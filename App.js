@@ -1,5 +1,8 @@
 import React from 'react';
 import { View } from 'react-native';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import reducer from './reducers';
 import AddEntry from './components/AddEntry';
 import ComponentExamples from './components/ComponentExamples';
 
@@ -10,13 +13,16 @@ import ComponentExamples from './components/ComponentExamples';
 export default class App extends React.Component {
   render() {
     return (
-      <View>
-        {
-          // Uncomment the following component to see switch, flatList and input components
-        }
-        {/* <ComponentExamples /> */}
-        <AddEntry />
-      </View>
+      // providing the app store using our reducers
+      <Provider store={createStore(reducer)}>
+        <View>
+          {
+            // Uncomment the following component to see switch, flatList and input components
+          }
+          {/* <ComponentExamples /> */}
+          <AddEntry />
+        </View>
+      </Provider>
     );
   }
 }
