@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity, Text, Platform, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import { Entypo } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { getDailyReminderValue, getMetricMetaInfo, timeToString } from '../utils/helpers';
 import FitnessSlider from './FitnessSlider';
 import FitnessSteppers from './FitnessSteppers';
@@ -9,6 +9,7 @@ import DateHeader from './DateHeader';
 import TextButton from './TextButton';
 import { submitEntry, removeEntry } from '../utils/api';
 import { addEntry } from '../actions';
+import { white, purple } from '../utils/colors';
 
 const SubmitBtn = ({ onPress }) => {
   return (
@@ -18,10 +19,14 @@ const SubmitBtn = ({ onPress }) => {
      * Available handlers are: Button, TouchableHighlight, TouchableOpacity, TouchableNativeFeedback,
      * and TouchableWithoutFeedback
      */
+
+     // Platform: used to check which Operational System is currently running
+     // In this case, we use it to set custom styles for each platform
     <TouchableOpacity
+      style={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.androidSubmitBtn}
       onPress={onPress}
     >
-      <Text>Submit</Text>
+      <Text style={styles.submitBtnText}>Submit</Text>
     </TouchableOpacity>
   );
 }
@@ -99,35 +104,35 @@ class AddEntry extends Component {
 
     if (this.props.alreadyLogged) {
       return (
-        <View>
+        <View style={styles.center}>
           {
             /** 
               Icons -> Create-react-native app comes with Vector Icons by default.
               Directory of icons available can be found at https://expo.github.io/vector-icons/
             */
           }
-          <Entypo name='emoji-happy' size={100} />
+          <Ionicons name='md-happy' size={100} />
           <Text>You already logged your information for today</Text>
-          <TextButton onPress={this.reset}>Reset</TextButton>
+          <TextButton style={{padding: 10}} onPress={this.reset}>Reset</TextButton>
         </View>
       )
     }
 
     return (
-      <View>
+      <View style={styles.container}>
         {
           // creating a new date and using toLocaleDateString to make it more readable, while passing
           // it to the DateHeader component
         }
         <DateHeader date={(new Date()).toLocaleDateString()} />
-        <Text>{JSON.stringify(this.state)}</Text>
+        {/* <Text>{JSON.stringify(this.state)}</Text> */}
         {Object.keys(metaInfo).map((key) => {
           const { getIcon, type, ...rest } = metaInfo[key];
           const value = this.state[key];
 
           return (
-            <View key={key}>
-              {/* {getIcon()} */}
+            <View key={key} style={styles.row}>
+              {getIcon()}
               {type === 'slider'
                 ? <FitnessSlider
                     value={value}
@@ -149,6 +154,52 @@ class AddEntry extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    // flex 1 is used to garantee that the container's children will take all of it space
+    flex: 1,
+    padding: 20,
+    backgroundColor: white,
+  },
+  row: {
+    // changing the main axis from vertical (column) to horizontal (row)
+    flexDirection: 'row',
+    flex: 1,
+    // aligning the cross axis, which in row is vertical
+    alignItems: 'center',
+  },
+  iosSubmitBtn: {
+    backgroundColor: purple,
+    padding: 10,
+    borderRadius: 7,
+    height: 45,
+    marginLeft: 40,
+    marginRight: 40,
+  },
+  androidSubmitBtn: {
+    backgroundColor: purple,
+    padding: 10,
+    paddingLeft: 30,
+    paddingRight: 30,
+    borderRadius: 2,
+    alignSelf: 'flex-end',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  submitBtnText: {
+    color: white,
+    fontSize: 22,
+    textAlign: 'center',
+  },
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 30,
+    marginLeft: 30,
+  },
+});
 
 const mapStateToProps = (state) => {
   const key = timeToString();

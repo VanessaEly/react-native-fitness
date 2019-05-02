@@ -16,14 +16,17 @@ export default class App extends React.Component {
     return (
       // providing the app store using our reducers
       <Provider store={createStore(reducer)}>
-        <FlexboxExamples />
-        <View>
+        {/* <FlexboxExamples /> */}
+        {
+          // flex one means that we are giving this component all available space, allowing
+          // the child components to expend until the full size of the phone
+        }
+        <View style={{flex: 1}}>
           {
             // Uncomment the following component to see switch, flatList and input components
           }
           {/* <ComponentExamples /> */}
-          
-          {/* <AddEntry /> */}
+          <AddEntry />
         </View>
       </Provider>
     );
