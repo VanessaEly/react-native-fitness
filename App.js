@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import reducer from './reducers';
 import AddEntry from './components/AddEntry';
 import ComponentExamples from './components/ComponentExamples';
+import FlexboxExamples from './components/FlexboxExamples';
 
 /**
  *  Expo is a set of tools and services that allow us to build native (iOS and Android) applications with JavaScript
@@ -15,12 +16,14 @@ export default class App extends React.Component {
     return (
       // providing the app store using our reducers
       <Provider store={createStore(reducer)}>
+        <FlexboxExamples />
         <View>
           {
             // Uncomment the following component to see switch, flatList and input components
           }
           {/* <ComponentExamples /> */}
-          <AddEntry />
+          
+          {/* <AddEntry /> */}
         </View>
       </Provider>
     );
