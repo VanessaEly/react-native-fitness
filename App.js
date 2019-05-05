@@ -1,12 +1,75 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Platform, StatusBar } from 'react-native';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+import { createAppContainer, createBottomTabNavigator } from 'react-navigation';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import reducer from './reducers';
 import AddEntry from './components/AddEntry';
 import ComponentExamples from './components/ComponentExamples';
 import FlexboxExamples from './components/FlexboxExamples';
 import History from './components/History';
+import { purple, white } from './utils/colors';
+import { Constants } from 'expo';
+
+// adding a header status bar to the app
+const FitnessStatusBar = ({ backgroundColor, ...props }) => (
+  <View style={{backgroundColor, height: Constants.statusBarHeight}}>
+    <StatusBar translucent backgroundColor={backgroundColor} {...props} />
+  </View>
+)
+
+const Tabs = createAppContainer(
+  createBottomTabNavigator({
+    History: {
+      // which component will be rendered
+      screen: History,
+      navigationOptions: {
+        tabBarLabel: 'History',
+        tabBarIcon: ({ tintColor }) => <Ionicons name='ios-bookmarks' size={30} color={tintColor} />
+      }
+    },
+    AddEntry: {
+      screen: AddEntry,
+      navigationOptions: {
+        tabBarLabel: 'Add Entry',
+        tabBarIcon: ({ tintColor }) => <FontAwesome name='plus-square' size={30} color={tintColor} />,
+      }
+    },
+    FlexboxExamples: {
+      screen: FlexboxExamples,
+      navigationOptions: {
+        tabBarLabel: 'Flexbox',
+        tabBarIcon: ({ tintColor }) => <FontAwesome name='columns' size={30} color={tintColor} />,
+      }
+    },
+    ComponentExamples: {
+      screen: ComponentExamples,
+      navigationOptions: {
+        tabBarLabel: 'Component',
+        tabBarIcon: ({ tintColor }) => <FontAwesome name='th-list' size={30} color={tintColor} />,
+      }
+    }
+  }, {
+    navigationOptions: {
+      header: null,
+    },
+    tabBarOptions: {
+      activeTintColor: Platform.OS === 'ios' ? purple : white,
+      style: {
+        height: 56,
+        backgroundColor: Platform.OS === 'ios' ? white : purple,
+        shadowColor: 'rgba(0, 0, 0, 0.24)',
+        shadowOffset: {
+          width: 0,
+          height: 3
+        },
+        shadowRadius: 6,
+        shadowOpacity: 1,
+      }
+    }
+  })
+);
 /**
  *  Expo is a set of tools and services that allow us to build native (iOS and Android) applications with JavaScript
  *  Expo makes it easy to build mobile applications without having to write native code (e.g. Swift, Objective C, Java)
@@ -16,18 +79,13 @@ export default class App extends React.Component {
     return (
       // providing the app store using our reducers
       <Provider store={createStore(reducer)}>
-        {/* <FlexboxExamples /> */}
         {
           // flex one means that we are giving this component all available space, allowing
           // the child components to expend until the full size of the phone
         }
         <View style={{flex: 1}}>
-          {
-            // Uncomment the following component to see switch, flatList and input components
-          }
-          {/* <ComponentExamples /> */}
-          <View style={{height: 20}}/>
-          <History />
+          <FitnessStatusBar backgroundColor={purple} barStyle='light-content' />
+          <Tabs />
         </View>
       </Provider>
     );
