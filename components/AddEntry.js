@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity, Text, Platform, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
 import { getDailyReminderValue, getMetricMetaInfo, timeToString } from '../utils/helpers';
 import FitnessSlider from './FitnessSlider';
@@ -86,6 +87,8 @@ class AddEntry extends Component {
       eat: 0,
     }));
 
+    this.toHome();
+
     // adding entry into AsyncStorage
     submitEntry({ key, entry });
   }
@@ -96,8 +99,16 @@ class AddEntry extends Component {
       [key]: getDailyReminderValue(),
     }));
 
+    this.toHome();
+
     // removing entry from AsyncStorage
     removeEntry(key);
+  }
+  // going back to the previous screen
+  toHome = () => {
+    this.props.navigation.dispatch(NavigationActions.back({
+      key: 'AddEntry', // passing were we want to go back from (current component)
+    }))
   }
   render() {
     const metaInfo = getMetricMetaInfo();
