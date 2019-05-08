@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Platform, StatusBar } from 'react-native';
+import { View, Text, Platform, StatusBar, TouchableOpacity } from 'react-native';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { createAppContainer, createBottomTabNavigator, createStackNavigator } from 'react-navigation';
+import { createAppContainer, createBottomTabNavigator, createStackNavigator, createDrawerNavigator } from 'react-navigation';
 import { Constants } from 'expo';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
 import reducer from './reducers';
@@ -12,6 +12,37 @@ import FlexboxExamples from './components/FlexboxExamples';
 import History from './components/History';
 import { purple, white } from './utils/colors';
 import EntryDetail from './components/EntryDetail';
+
+// START DRAWER NAVIGATION EXAMPLE
+// const Home = ({ navigation }) => (
+//   <View>
+//     <Text>Home view</Text>
+//     <TouchableOpacity onPress={() => navigation.openDrawer()}>
+//       <Text>Press here to open the drawer!</Text>
+//     </TouchableOpacity>
+//   </View>
+// );
+
+// const Dashboard = ({ navigation }) => (
+//   <View>
+//     <Text>Dashboard view</Text>
+//     <TouchableOpacity onPress={() => navigation.openDrawer()}>
+//       <Text>Press here to open the drawer!</Text>
+//     </TouchableOpacity>
+//   </View>
+// );
+
+// const Drawer = createAppContainer(
+//   createDrawerNavigator({
+//     History: {
+//       screen: Home
+//     },
+//     AddEntry: {
+//       screen: Dashboard
+//     }
+//   })
+// );
+// END NAVIGATION EXAMPLE
 
 // adding a header status bar to the app
 const FitnessStatusBar = ({ backgroundColor, ...props }) => (
@@ -101,6 +132,11 @@ export default class App extends React.Component {
         }
         <View style={{flex: 1}}>
           <FitnessStatusBar backgroundColor={purple} barStyle='light-content' />
+          {
+            // uncomment the drawer line and the components in the start of this file to
+            // test drawer navigation (side menu triggered by click)
+          }
+          {/* <Drawer /> */}
           <MainNavigator />
         </View>
       </Provider>
