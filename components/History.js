@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, Platform, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Platform, TouchableOpacity, ActivityIndicator } from 'react-native'
 import { connect } from 'react-redux'
 import UdaciFitnessCalendar from 'udacifitness-calendar'
 import { receiveEntries, addEntry } from '../actions'
@@ -8,7 +8,6 @@ import { fetchCalendarResults } from '../utils/api'
 import { white } from '../utils/colors';
 import DateHeader from './DateHeader';
 import MetricCard from './MetricCard';
-import { AppLoading } from 'expo';
 
 class History extends Component {
   state ={
@@ -66,7 +65,7 @@ class History extends Component {
     const { ready } = this.state;
     
     if (ready === false) {
-      return <AppLoading />
+      return <ActivityIndicator style={{marginTop: 30}} />
     }
 
     return (
