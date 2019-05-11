@@ -10,9 +10,10 @@ import AddEntry from './components/AddEntry';
 import ComponentExamples from './components/ComponentExamples';
 import FlexboxExamples from './components/FlexboxExamples';
 import History from './components/History';
-import { purple, white } from './utils/colors';
 import EntryDetail from './components/EntryDetail';
 import Live from './components/Live';
+import ImgPicker from './components/ImgPicker';
+import { purple, white } from './utils/colors';
 import { setLocalNotification } from './utils/helpers';
 
 // START DRAWER NAVIGATION EXAMPLE
@@ -65,7 +66,7 @@ const Tabs = createBottomTabNavigator({
   AddEntry: {
     screen: AddEntry,
     navigationOptions: {
-      tabBarLabel: 'Add Entry',
+      tabBarLabel: 'Add',
       tabBarIcon: ({ tintColor }) => <FontAwesome name='plus-square' size={30} color={tintColor} />,
     }
   },
@@ -86,8 +87,15 @@ const Tabs = createBottomTabNavigator({
   ComponentExamples: {
     screen: ComponentExamples,
     navigationOptions: {
-      tabBarLabel: 'Component',
+      tabBarLabel: 'Components',
       tabBarIcon: ({ tintColor }) => <FontAwesome name='th-list' size={30} color={tintColor} />,
+    }
+  },
+  ImgPicker: {
+    screen: ImgPicker,
+    navigationOptions: {
+      tabBarLabel: 'Camera',
+      tabBarIcon: ({ tintColor }) => <FontAwesome name='camera' size={30} color={tintColor} />,
     }
   }
 }, {
