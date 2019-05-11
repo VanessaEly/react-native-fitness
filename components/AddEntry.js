@@ -3,7 +3,13 @@ import { View, TouchableOpacity, Text, Platform, StyleSheet } from 'react-native
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
-import { getDailyReminderValue, getMetricMetaInfo, timeToString } from '../utils/helpers';
+import {
+  getDailyReminderValue,
+  getMetricMetaInfo,
+  timeToString,
+  clearLocalNotification,
+  setLocalNotification,
+} from '../utils/helpers';
 import FitnessSlider from './FitnessSlider';
 import FitnessSteppers from './FitnessSteppers';
 import DateHeader from './DateHeader';
@@ -91,6 +97,9 @@ class AddEntry extends Component {
 
     // adding entry into AsyncStorage
     submitEntry({ key, entry });
+    // clearing today's notification and setting a new one fro tomorrow
+    clearLocalNotification()
+      .then(setLocalNotification);
   }
   reset = () => {
     const key = timeToString();

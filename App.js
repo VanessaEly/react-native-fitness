@@ -13,6 +13,7 @@ import History from './components/History';
 import { purple, white } from './utils/colors';
 import EntryDetail from './components/EntryDetail';
 import Live from './components/Live';
+import { setLocalNotification } from './utils/helpers';
 
 // START DRAWER NAVIGATION EXAMPLE
 // const Home = ({ navigation }) => (
@@ -130,6 +131,9 @@ const MainNavigator = createAppContainer(
  *  Expo makes it easy to build mobile applications without having to write native code (e.g. Swift, Objective C, Java)
  */
 export default class App extends React.Component {
+  componentDidMount() {
+    setLocalNotification();
+  }
   render() {
     return (
       // providing the app store using our reducers
