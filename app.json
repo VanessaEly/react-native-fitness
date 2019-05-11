@@ -1,6 +1,7 @@
 {
   "expo": {
-    "name": "Udacity Fitness",
+    "name": "React Native Fitness",
+    "description": "The best thriatlon tracker ever",
     "slug": "react-native-fitness",
     "privacy": "public",
     "sdkVersion": "32.0.0",
@@ -11,8 +12,11 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "notification": {
+      "icon": "./assets/icon.png"
+    },
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -23,7 +27,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
-    }
+      "supportsTablet": true,
+      "bundleIdentifier": "org.udacifitness.exp"
+     },
+     "android": {
+      "package": "org.udacifitness.exp"
+     }
   }
 }

@@ -16,6 +16,16 @@ import ImgPicker from './components/ImgPicker';
 import { purple, white } from './utils/colors';
 import { setLocalNotification } from './utils/helpers';
 
+/**
+ * To upload to the store:
+ * - Update app.json configs
+ * - If exp is not installed, npm install -g exp;
+ * - while the app is running, run exp build:android or exp build:ios
+ * - We can run exp build:status to check the status of the current build.
+ * - If the build is ready, the status will give us a url to download the apk or ipa file
+ * - To upload to app store: https://developer.apple.com/support/app-store-connect/
+ * - to upload to google play: https://support.google.com/googleplay/android-developer/answer/113469?hl=en
+ */
 // START DRAWER NAVIGATION EXAMPLE
 // const Home = ({ navigation }) => (
 //   <View>
